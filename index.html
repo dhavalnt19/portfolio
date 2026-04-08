@@ -1,0 +1,304 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#00cfff;--gd:#002a3a;--gm:#00aadd;--gb:#00080f;
+  --bg:#020810;--bg2:#03101a;--bg3:#041520;
+  --border:#00cfff22;--border2:#00cfff55;
+  --dim:#0077aa;
+}
+body{background:var(--bg);color:var(--g);font-family:'Share Tech Mono',monospace;overflow-x:hidden}
+canvas{display:block;position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.port{position:relative;min-height:100vh;background:var(--bg)}
+.hero{position:relative;padding:2.5rem 1.5rem 2rem;border-bottom:1px solid var(--border2);overflow:hidden;min-height:300px}
+.scan-line{position:absolute;top:0;left:0;right:0;height:2px;background:rgba(0,207,255,0.35);animation:scan 4s linear infinite;z-index:2}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.glitch{font-family:'Orbitron',monospace;font-size:2.5rem;font-weight:900;color:var(--g);line-height:1.1;position:relative;animation:glitch 6s infinite}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%}
+.glitch::before{color:#ff2d6b;animation:glitch-r 6s infinite;clip-path:polygon(0 18%,100% 18%,100% 36%,0 36%)}
+.glitch::after{color:#00ffe5;animation:glitch-b 6s infinite 0.12s;clip-path:polygon(0 62%,100% 62%,100% 80%,0 80%)}
+@keyframes glitch{0%,88%,100%{transform:none}90%{transform:translate(-2px,1px)}92%{transform:translate(2px,-1px)}94%{transform:translate(-1px,0)}}
+@keyframes glitch-r{0%,88%,100%{transform:none;opacity:0}90%{transform:translate(3px,0);opacity:0.8}92%{transform:translate(-3px,0);opacity:0.8}94%{opacity:0}}
+@keyframes glitch-b{0%,88%,100%{transform:none;opacity:0}90%{transform:translate(-3px,0);opacity:0.8}92%{transform:translate(3px,0);opacity:0.8}94%{opacity:0}}
+.subtitle{color:var(--gm);font-size:0.82rem;letter-spacing:0.18em;margin:0.5rem 0 1.1rem}
+.subtitle::after{content:'_';animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.terminal-line{font-size:0.74rem;color:#0099cc;margin:4px 0;opacity:0;animation:fadein 0.3s forwards}
+.terminal-line::before{content:'> '}
+@keyframes fadein{to{opacity:1}}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:1.1rem}
+.badge{font-size:10px;padding:4px 11px;border:1px solid var(--gm);color:var(--g);letter-spacing:0.1em;position:relative;overflow:hidden}
+.badge::before{content:'';position:absolute;left:-100%;top:0;bottom:0;width:100%;background:rgba(0,207,255,0.1);animation:sweep 3.5s infinite}
+.badge:nth-child(2)::before{animation-delay:.5s}
+.badge:nth-child(3)::before{animation-delay:1s}
+.badge:nth-child(4)::before{animation-delay:1.5s}
+.badge:nth-child(5)::before{animation-delay:2s}
+@keyframes sweep{0%{left:-100%}50%,100%{left:100%}}
+.section{padding:1.6rem 1.5rem;border-bottom:1px solid var(--border2);position:relative}
+.sec-head{font-family:'Orbitron',monospace;font-size:0.72rem;letter-spacing:0.22em;color:var(--gm);margin-bottom:1.1rem;display:flex;align-items:center;gap:8px}
+.sec-head::before{content:'//'}
+.sec-head::after{content:'';flex:1;height:1px;background:var(--border2)}
+.exp-item{border:1px solid var(--border2);padding:1.1rem;margin-bottom:0.8rem;position:relative;cursor:pointer;transition:border-color 0.2s,background 0.2s}
+.exp-item:hover,.exp-item.active{border-color:var(--g);background:rgba(0,207,255,0.04)}
+.exp-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--g);transform:scaleY(0);transition:transform 0.3s;transform-origin:bottom}
+.exp-item:hover::before,.exp-item.active::before{transform:scaleY(1)}
+.exp-role{font-family:'Orbitron',monospace;font-size:0.78rem;font-weight:700;color:var(--g);margin-bottom:4px}
+.exp-meta{font-size:0.72rem;color:var(--gm);margin-bottom:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.exp-bullets{font-size:0.73rem;color:#88ddff;line-height:1.9;max-height:0;overflow:hidden;transition:max-height 0.45s ease}
+.exp-item.active .exp-bullets{max-height:220px}
+.exp-bullets li{list-style:none;padding-left:14px;position:relative;margin-bottom:2px}
+.exp-bullets li::before{content:'$';position:absolute;left:0;color:var(--g);font-weight:700}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem}
+.skill-cat{border:1px solid var(--border2);padding:0.9rem}
+.skill-cat-name{font-family:'Orbitron',monospace;font-size:0.62rem;color:var(--gm);letter-spacing:0.15em;margin-bottom:0.8rem}
+.skill-bar-wrap{margin-bottom:8px}
+.skill-name{font-size:0.7rem;color:#aaeeff;display:flex;justify-content:space-between;margin-bottom:3px}
+.skill-pct{color:var(--g);font-weight:700}
+.skill-track{height:4px;background:#001825;border:1px solid var(--border2);position:relative;overflow:hidden;border-radius:2px}
+.skill-fill{height:100%;background:var(--g);width:0;transition:width 1.6s cubic-bezier(0.2,0,0,1);border-radius:2px}
+.skill-fill.animated{width:var(--w)}
+.certs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.55rem}
+.cert{border:1px solid var(--border2);padding:0.65rem 0.9rem;font-size:0.72rem;color:#aaeeff;display:flex;align-items:center;gap:8px;transition:border-color 0.2s,background 0.2s}
+.cert:hover{border-color:var(--g);background:rgba(0,207,255,0.05)}
+.cert-dot{width:6px;height:6px;background:var(--g);border-radius:50%;flex-shrink:0;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.25}}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;padding:1.5rem}
+.stat{border:1px solid var(--border2);padding:1.1rem;text-align:center;position:relative;overflow:hidden}
+.stat::after{content:'';position:absolute;inset:0;background:rgba(0,207,255,0.02);animation:stat-pulse 2.5s infinite alternate}
+@keyframes stat-pulse{to{background:rgba(0,207,255,0.06)}}
+.stat-n{font-family:'Orbitron',monospace;font-size:1.9rem;font-weight:900;color:var(--g);line-height:1}
+.stat-l{font-size:0.62rem;color:var(--gm);letter-spacing:0.1em;margin-top:5px}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem}
+.edu-item{border:1px solid var(--border2);padding:0.9rem}
+.edu-deg{font-family:'Orbitron',monospace;font-size:0.65rem;font-weight:700;color:var(--g);margin-bottom:5px;line-height:1.5}
+.edu-school{font-size:0.7rem;color:#88bbcc}
+.edu-yr{font-size:0.65rem;color:var(--dim);margin-top:4px}
+.contact-section{padding:1.3rem 1.5rem;display:flex;flex-wrap:wrap;gap:0.7rem;border-bottom:1px solid var(--border2)}
+.contact-item{border:1px solid var(--border2);padding:0.55rem 0.9rem;font-size:0.72rem;color:#aaeeff;display:flex;align-items:center;gap:7px}
+.c-led{width:5px;height:5px;background:var(--g);border-radius:50%;animation:pulse-dot 1.8s infinite}
+.corner{position:absolute;width:10px;height:10px;border-color:var(--g);border-style:solid;opacity:0.7}
+.corner.tl{top:6px;left:6px;border-width:1px 0 0 1px}
+.corner.tr{top:6px;right:6px;border-width:1px 1px 0 0}
+.corner.bl{bottom:6px;left:6px;border-width:0 0 1px 1px}
+.corner.br{bottom:6px;right:6px;border-width:0 1px 1px 0}
+.footer{padding:1.2rem 1.5rem;font-size:0.65rem;color:var(--dim);letter-spacing:0.1em;text-align:center;border-top:1px solid var(--border)}
+</style>
+
+<h2 class="sr-only">Dhaval Talekar — Cyber Security Analyst final portfolio</h2>
+
+<div class="port">
+<canvas id="canvas-bg"></canvas>
+
+<div class="hero">
+  <div class="scan-line"></div>
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div style="position:relative;z-index:1">
+    <div style="font-size:0.65rem;color:var(--dim);letter-spacing:0.2em;margin-bottom:0.9rem">SECURE TERMINAL v2.6.1 — IDENTITY VERIFIED</div>
+    <div class="glitch" data-text="DHAVAL TALEKAR">DHAVAL TALEKAR</div>
+    <div class="subtitle">CYBER SECURITY ANALYST</div>
+    <div id="boot-log"></div>
+    <div class="badges">
+      <div class="badge">AWS ARCHITECT</div>
+      <div class="badge">ISO 27001</div>
+      <div class="badge">SIEM / SOC</div>
+      <div class="badge">PEN TESTING</div>
+      <div class="badge">INCIDENT RESPONSE</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat"><div class="stat-n" id="s1">0</div><div class="stat-l">YRS EXPERIENCE</div></div>
+  <div class="stat"><div class="stat-n" id="s2">0</div><div class="stat-l">CERTIFICATIONS</div></div>
+  <div class="stat"><div class="stat-n" id="s3">0</div><div class="stat-l">CLOUD PLATFORMS</div></div>
+</div>
+
+<div class="contact-section">
+  <div class="contact-item"><span class="c-led"></span>talekardhaval13@gmail.com</div>
+  <div class="contact-item"><span class="c-led"></span>+91 90994 47499</div>
+  <div class="contact-item"><span class="c-led"></span>+44 75703 23243</div>
+  <div class="contact-item"><span class="c-led"></span>UK / INDIA</div>
+</div>
+
+<div class="section">
+  <div class="sec-head">WORK EXPERIENCE</div>
+  <div style="font-size:0.68rem;color:var(--dim);margin-bottom:0.8rem">Click any card to expand details</div>
+
+  <div class="exp-item" onclick="toggle(this)">
+    <div class="exp-role">CYBER SECURITY ANALYST</div>
+    <div class="exp-meta"><span>CybeRim · United Kingdom</span><span>AUG 2024 – DEC 2025</span></div>
+    <ul class="exp-bullets">
+      <li>Monitored enterprise networks using SIEM, IDS, and DLP tools</li>
+      <li>Led structured incident response and wrote detailed technical reports</li>
+      <li>Conducted vulnerability assessments and penetration testing</li>
+      <li>Ensured ISO 27001, Cyber Essentials, and GDPR compliance</li>
+      <li>Threat research across IaaS, PaaS, and SaaS cloud environments</li>
+    </ul>
+  </div>
+
+  <div class="exp-item" onclick="toggle(this)">
+    <div class="exp-role">SECURITY CONSULTANT</div>
+    <div class="exp-meta"><span>Webburner · India</span><span>JUL 2020 – SEP 2022</span></div>
+    <ul class="exp-bullets">
+      <li>Delivered end-to-end cybersecurity solutions and risk assessments</li>
+      <li>Configured cloud security controls, VPNs, and firewalls</li>
+      <li>Enforced NIST, GDPR, and ISO 27001 compliance standards</li>
+      <li>Delivered cybersecurity awareness training across teams</li>
+    </ul>
+  </div>
+
+  <div class="exp-item" onclick="toggle(this)">
+    <div class="exp-role">JUNIOR SECURITY ANALYST</div>
+    <div class="exp-meta"><span>Revokarma IT Hub · India</span><span>JAN 2018 – MAY 2020</span></div>
+    <ul class="exp-bullets">
+      <li>Supported SOC team in network monitoring and threat analysis</li>
+      <li>Performed vulnerability scanning and compliance audit records</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-head">SKILL MATRIX</div>
+  <div class="skills-grid">
+    <div class="skill-cat">
+      <div class="skill-cat-name">CLOUD / AWS</div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>EC2 / S3 / IAM</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill" style="--w:95%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>VPC / Networking</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" style="--w:88%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Lambda / ECS / ECR</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-fill" style="--w:80%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Terraform / Docker</span><span class="skill-pct">75%</span></div><div class="skill-track"><div class="skill-fill" style="--w:75%"></div></div></div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-name">SECURITY OPS</div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>SIEM / IDS / DLP</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill" style="--w:92%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Incident Response</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="--w:90%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Penetration Testing</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" style="--w:85%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Malware Analysis</span><span class="skill-pct">78%</span></div><div class="skill-track"><div class="skill-fill" style="--w:78%"></div></div></div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-name">COMPLIANCE</div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>ISO 27001</span><span class="skill-pct">93%</span></div><div class="skill-track"><div class="skill-fill" style="--w:93%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>NIST Framework</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" style="--w:88%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>GDPR</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="--w:90%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Cyber Essentials</span><span class="skill-pct">87%</span></div><div class="skill-track"><div class="skill-fill" style="--w:87%"></div></div></div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-name">MONITORING</div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>CloudWatch</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" style="--w:85%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>CloudTrail</span><span class="skill-pct">83%</span></div><div class="skill-track"><div class="skill-fill" style="--w:83%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Network Analysis</span><span class="skill-pct">89%</span></div><div class="skill-track"><div class="skill-fill" style="--w:89%"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-name"><span>Threat Research</span><span class="skill-pct">86%</span></div><div class="skill-track"><div class="skill-fill" style="--w:86%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-head">CERTIFICATIONS</div>
+  <div class="certs-grid">
+    <div class="cert"><span class="cert-dot"></span>AWS Cloud Practitioner</div>
+    <div class="cert"><span class="cert-dot"></span>AWS Solutions Architect Associate</div>
+    <div class="cert"><span class="cert-dot"></span>Microsoft 365 Fundamentals</div>
+    <div class="cert"><span class="cert-dot"></span>IT Security — Google</div>
+    <div class="cert"><span class="cert-dot"></span>Intro to Cyber Security — Cisco</div>
+    <div class="cert"><span class="cert-dot"></span>ISO 27001:2022 Compliant</div>
+    <div class="cert"><span class="cert-dot"></span>Incident Response &amp; Forensics</div>
+    <div class="cert"><span class="cert-dot"></span>Incident Response Planning</div>
+  </div>
+</div>
+
+<div class="section" style="border-bottom:none">
+  <div class="sec-head">EDUCATION</div>
+  <div class="edu-grid">
+    <div class="edu-item">
+      <div class="edu-deg">MSc Information Security &amp; Digital Forensics</div>
+      <div class="edu-school">University of East London, UK</div>
+      <div class="edu-yr">Graduated Jan 2024</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-deg">BEng Computer Science Engineering</div>
+      <div class="edu-school">Parul Institute of Technology, India</div>
+      <div class="edu-yr">Graduated Jan 2018</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">DHAVAL TALEKAR · CYBER SECURITY ANALYST · PORTFOLIO 2025</div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+let W, H, drops;
+const FONT = 13;
+const CHARS = 'アイウエオ01SECURITYHACK<>{}[]CLOUD AWS';
+
+function resize(){
+  W = canvas.width = canvas.offsetWidth || 600;
+  H = canvas.height = Math.max(canvas.offsetHeight, document.querySelector('.port').scrollHeight, 800);
+  if(!drops) drops = Array(Math.floor(W/FONT)).fill(1);
+}
+
+function draw(){
+  ctx.fillStyle = 'rgba(2,8,16,0.06)';
+  ctx.fillRect(0,0,W,H);
+  ctx.font = FONT+'px Share Tech Mono';
+  const cols = Math.floor(W/FONT);
+  while(drops.length < cols) drops.push(1);
+  for(let i=0;i<cols;i++){
+    const c = CHARS[Math.floor(Math.random()*CHARS.length)];
+    const progress = drops[i]*FONT/H;
+    ctx.fillStyle = Math.random()>0.97 ? '#ffffff' : progress < 0.15 ? '#00cfff' : '#005577';
+    ctx.fillText(c, i*FONT, drops[i]*FONT);
+    if(drops[i]*FONT > H && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+
+resize();
+window.addEventListener('resize', ()=>{ drops=null; resize(); });
+setInterval(draw, 55);
+
+function toggle(el){
+  const was = el.classList.contains('active');
+  document.querySelectorAll('.exp-item').forEach(e=>e.classList.remove('active'));
+  if(!was) el.classList.add('active');
+}
+
+const bootLines = [
+  'loading profile: dhaval_talekar.json',
+  'credential check... AWS_CERTIFIED [OK]',
+  'threat scan... 0 vulnerabilities found',
+  '5+ years operational experience loaded',
+  'portfolio decrypted — access granted'
+];
+const log = document.getElementById('boot-log');
+bootLines.forEach((line,i)=>{
+  setTimeout(()=>{
+    const d = document.createElement('div');
+    d.className='terminal-line';
+    d.textContent=line;
+    log.appendChild(d);
+  }, i*380);
+});
+
+function countUp(id, target, dur){
+  const el=document.getElementById(id);
+  let v=0;
+  const step=Math.ceil(target/(dur/50));
+  const iv=setInterval(()=>{
+    v=Math.min(v+step,target);
+    el.textContent=v+(target<=10?'+':'');
+    if(v>=target)clearInterval(iv);
+  },50);
+}
+setTimeout(()=>{
+  countUp('s1',5,1200);
+  countUp('s2',8,1200);
+  countUp('s3',3,1200);
+},1300);
+
+setTimeout(()=>{
+  document.querySelectorAll('.skill-fill').forEach(el=>el.classList.add('animated'));
+},1600);
+</script>
