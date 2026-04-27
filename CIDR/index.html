@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated CIDR Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">✨ CIDR Calculator</h1>
+    <p class="subtitle">Enter an IP address in CIDR notation (e.g. 192.168.1.10/24)</p>
+    <div class="input-box">
+      <input type="text" id="cidrInput" placeholder="192.168.1.10/24" />
+      <button onclick="calculateCIDR()">Calculate</button>
+    </div>
+    <div id="results" class="results-card hidden">
+      <div class="result-line"><strong>Network Address:</strong> <span id="network"></span></div>
+      <div class="result-line"><strong>Broadcast Address:</strong> <span id="broadcast"></span></div>
+      <div class="result-line"><strong>First Usable:</strong> <span id="first"></span></div>
+      <div class="result-line"><strong>Last Usable:</strong> <span id="last"></span></div>
+      <div class="result-line"><strong>Total Hosts:</strong> <span id="total"></span></div>
+      <div class="progress-bar"><div class="progress"></div></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
